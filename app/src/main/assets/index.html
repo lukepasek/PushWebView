@@ -1,0 +1,79 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="style.css" />
+        <script src="script.js" />
+        <script>
+            function on_load() {
+                /* android.toast("Document load"); */
+                console.log("Document load");
+                let w = window.innerHeight;
+                let h = window.innerWidth;
+                console.log("Window size: "+w+"x"+h);
+            }
+        </script>
+    </head>
+    <body onload="on_load()">
+    <div id="wifi-info" class="right"></div>
+    <div id="overlay">
+        <div id="content"></div>
+    </div>
+    <div id="grid-overlay">
+        <table height="100%">
+            <col width="33%" />
+            <col width="auto" />
+            <col width="33%" />
+            <tr height="33%">
+                <td>
+                    <div class="icon-bg icon-right" >
+                        <div class="fan-icon"></div>
+                        <div class="icon-overlay" onmousedown="click(this, 0)" onmouseup="click(this, 1)" onclick="console.log('click on FAN')"></div>
+                    </div>
+                </td>
+                <td><div id="clock" class="big-label">00:00</div></td>
+                <td>
+                    <div class="icon-bg icon-right" >
+                        <div class="icon-overlay" onmousedown="click(this, 0)" onmouseup="click(this, 1)" onclick="console.log('click on SUN')" ></div>
+                        <div class="sun-icon"></div>
+                        <div class="value-bar-bg" style="height:7%;width:80%;background-color:DimGray;margin:9%;margin-top:0px;">
+                            <div class="value-bar-value" style="height:100%;width:70%;background-color:green;"></div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr height="33%">
+                <td>
+                    <div class="icon-bg icon-right">
+                        <div class="wind-icon">
+                        </div>
+                        <div class="value-bar-bg" style="height:7%;width:80%;background-color:DimGray;margin:9%;margin-top:0px;">
+                            <div class="value-bar-value" style="height:100%;width:70%;background-color:green;"></div>
+                        </div>
+                        <div class="icon-overlay" onmousedown="click(this, 0)" onmouseup="click(this, 1)" onclick="console.log('click on FAN')" ></div>
+                    </div>
+                </td>
+                <td>
+                    <div class="icon-bg icon-right">
+                        <div class="power-icon"></div>
+                        <div class="icon-overlay" onmousedown="click(this, 0)" onmouseup="click(this, 1)" onclick="console.log('click on FAN')" ></div>
+                    </div>
+                </td>
+                <td>
+                    <div class="icon-bg icon-right">
+                        <div class="heat-icon">
+                        </div>
+                        <div class="value-bar-bg" style="height:7%;width:80%;background-color:DimGray;margin:9%;margin-top:0px;">
+                            <div class="value-bar-value" style="height:100%;width:70%;background-color:green;"></div>
+                        </div>
+                        <div class="icon-overlay" onmousedown="click(this, 0)" onmouseup="click(this, 1)" onclick="console.log('click on FAN')" ></div>
+                    </div>
+                </td>
+            </tr>
+            <tr height="33%">
+                <td><span id="value-vb"></span> V</td>
+                <td><span id="value-ib"></span> A</td>
+                <td><span id="value-on">0</span>/<span id="value-off">0</span></td>
+            </tr>
+        </table>
+    </div>
+    </body>
+</html>
