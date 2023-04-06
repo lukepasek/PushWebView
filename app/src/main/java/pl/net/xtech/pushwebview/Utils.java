@@ -1,5 +1,6 @@
 package pl.net.xtech.pushwebview;
 
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -137,8 +138,17 @@ public class Utils {
         sb.append("Charger connected: ").append(Utils.isChargerConnected(applicationContext)).append("\r\n");
         sb.append("Screen state: ").append(Utils.getScreenState(applicationContext)).append("\r\n");
         sb.append("WiFi state: ").append(Utils.getWiFiState(applicationContext)).append("\r\n");
+        sb.append("Bluetooth state: ").append(Utils.getBluetoothState(applicationContext)).append("\r\n");
         sb.append("\r\n");
 //                        sb.append("WiFi state: ").append(Utils.getWiFiState(applicationContext));
         return sb.toString().getBytes();
+    }
+
+    public static int getBluetoothState(Context applicationContext) {
+        BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (btAdapter!=null) {
+            return btAdapter.getState();
+        }
+        return -1;
     }
 }

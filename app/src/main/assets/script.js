@@ -17,15 +17,19 @@ function content_append(html)
     elem.insertAdjacentHTML('beforeend', html);
 }
 
-function update_clock(time) {
+function updateClock(time) {
     const elem = document.getElementById("clock");
-    elem.innerHTML = time;
+    if (elem) {
+        elem.innerHTML = time;
+    }
 }
 
-function set_wifi_info(html)
+function updateWifiInfo(html)
 {
     const elem = document.getElementById("wifi-info");
-    elem.innerHTML = html;
+    if (elem) {
+        elem.innerHTML = html;
+    }
 }
 
 function update_values(data) {

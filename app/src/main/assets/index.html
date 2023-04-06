@@ -13,7 +13,7 @@
         </script>
     </head>
     <body onload="on_load()">
-    <div id="wifi-info" class="right"></div>
+    <div id="wifi-info" class="right" onmousedown="click(this, 0)" onmouseup="click(this, 1)" onclick="android.showToast('WiFi address: '+android.getNetworkInfo())"></div>
     <div id="overlay">
         <div id="content"></div>
     </div>

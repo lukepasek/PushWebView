@@ -35,7 +35,7 @@ public class JSEntryPoint {
     @JavascriptInterface
     public String getNetworkInfo()
     {
-        return mainActivity.updateWifiStateInfo();
+        return mainActivity.getNetworkInfo();
     }
 
     @JavascriptInterface

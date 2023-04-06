@@ -86,10 +86,21 @@ public class BluetoothClient extends Thread {
                     }
                 }
             } catch (IOException connectException) {
+                Log.d("BT", this+" Socket connect error #"+connectError+": "+connectException.getMessage());
+                int btState = bluetoothAdapter.getState();
+                if (btState == BluetoothAdapter.STATE_OFF || btState == BluetoothAdapter.STATE_TURNING_OFF) {
+                    Log.i("BT", "Bluetooth is off - shutting down");
+                    run = false;
+                    return;
+                }
                 connectError++;
-                try {
-                    mmSocket.close();
-                } catch (IOException closeException) {}
+                if (mmSocket!=null && mmSocket.isConnected()) {
+                    try {
+                        mmSocket.close();
+                    } catch (IOException closeException) {
+                    }
+                    mmSocket = null;
+                }
                 if (run && connectError>5) {
                     try {
                         Thread.sleep(1000);
@@ -108,13 +119,16 @@ public class BluetoothClient extends Thread {
     public void close() {
         try {
             run = false;
-            mmSocket.close();
+            if (mmSocket!=null && mmSocket.isConnected()) {
+                mmSocket.close();
+            }
+            this.interrupt();
         } catch (IOException e) {
-//            Log.e(TAG, "Could not close the client socket", e);
+            Log.e(TAG, "Could not close the client socket", e);
         }
     }
 
     public boolean isConnected() {
-        return isAlive() && mmSocket.isConnected();
+        return isAlive();
     }
 }

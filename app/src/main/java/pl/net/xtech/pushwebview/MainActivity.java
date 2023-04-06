@@ -79,59 +79,54 @@ public class MainActivity extends Activity {
         final Window window = getWindow();
         window.requestFeature(Window.FEATURE_NO_TITLE);
 //        window.requestFeature(Window.FEATURE_ACTION_MODE_OVERLAY);
-
-        int windowFlags = WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON | WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN | WindowManager.LayoutParams.FLAG_FULLSCREEN;// | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
-
+        int windowFlags = WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
+//                | WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED
+                | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
+                | WindowManager.LayoutParams.FLAG_FULLSCREEN;// | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
         window.addFlags(windowFlags);
-
-//        window.addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
-////        window.addFlags(WindowManager.LayoutParams.FLAG_TOUCHABLE_WHEN_WAKING);
-//        window.addFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
-////        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-////        window.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
-////        window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
-//        window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
-//        window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
         WindowManager.LayoutParams layout = window.getAttributes();
         layout.screenBrightness = -1.0f;
         layout.screenOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
-//        layout.systemUiVisibility = View.SYSTEM_UI_FLAG_LOW_PROFILE;
-//        layout.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LOW_PROFILE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;//| View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-//        layout.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LOW_PROFILE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;//| View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-
-//        layout.systemUiVisibility = View.SYSTEM_UI_FLAG_LOW_PROFILE;// | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;// | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-
         layout.systemUiVisibility = View.SYSTEM_UI_FLAG_LOW_PROFILE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-
-//        layout.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION  | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-
         window.setAttributes(layout);
-
         View decorView = window.getDecorView();
         decorView.setBackgroundColor(Color.BLACK);
+        setFullScreen();
 
-        mLinearLayout = new LinearLayout(this);
-        mLinearLayout.setBackgroundColor(Color.BLACK);
-        mLinearLayout.setOrientation(LinearLayout.VERTICAL);
-        getWindow().setContentView(mLinearLayout);//, layout);
+//        if (Build.VERSION.SDK_INT >= 21) {
+//            getWindow().getDecorView().setSystemUiVisibility(
+//                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+//                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav
+//                            // bar
+////                            | View.SYSTEM_UI_FLAG_IMMERSIVE
+//            );
+//        }
 
-        mWebView = new WebView(this);
-        Log.i("WebViewActivity", "UA: " + mWebView.getSettings().getUserAgentString());
-        mWebView.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT));
+        setContentView(R.layout.main);
+        mWebView = (WebView) findViewById(R.id.main_webview);
+//        mWebView.clearView();
+//        mLinearLayout = new LinearLayout(this);
+//        mLinearLayout.setBackgroundColor(Color.BLACK);
+//        mLinearLayout.setOrientation(LinearLayout.VERTICAL);
+//        getWindow().setContentView(mLinearLayout);//, layout);
 
-        mLinearLayout.addView(mWebView);
+//        mWebView = new WebView(this);
+//        Log.i("WebViewActivity", "UA: " + mWebView.getSettings().getUserAgentString());
+//        mWebView.setLayoutParams(new LinearLayout.LayoutParams(
+//                LinearLayout.LayoutParams.MATCH_PARENT,
+//                LinearLayout.LayoutParams.MATCH_PARENT));
+//
+//        mLinearLayout.addView(mWebView);
         mWebView.setBackgroundColor(Color.BLACK);
         mWebView.setVerticalScrollBarEnabled(false);
         mWebView.setHorizontalScrollBarEnabled(false);
 
-        if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+//        if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR1) {
 
             mWebView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
+//                    setFullScreen();
                     int action = event.getAction();
                     if (action == MotionEvent.ACTION_DOWN || action == MotionEvent.ACTION_UP) {
                         Log.i("touch", "event: " + event);
@@ -141,8 +136,15 @@ public class MainActivity extends Activity {
                 }
             });
 
-        }
+//        }
         mWebView.getSettings().setJavaScriptEnabled(true);
+//        mWebView.getSettings().setUseWideViewPort(false);
+//        mWebView.getSettings().setBuiltInZoomControls(false);
+//        mWebView.getSettings().setAllowContentAccess(true);
+//        mWebView.getSettings().setAllowFileAccess(true);
+//        mWebView.getSettings().setAllowFileAccessFromFileURLs(true);
+//        mWebView.getSettings().setGeolocationEnabled(false);
+
         mWebView.addJavascriptInterface(new JSEntryPoint(this), "android");
 
         wifiBroadcastReceiver = new BroadcastReceiver() {
@@ -211,8 +213,39 @@ public class MainActivity extends Activity {
         screenLockIntentFilter.addAction(Intent.ACTION_BATTERY_CHANGED);
         registerReceiver(plugInControlReviever, plugInControlFilter);
 
+    }
+
+    @SuppressLint("NewApi")
+    private void setFullScreen() {
+        try {
+            int flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+//                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_FULLSCREEN;
 
 
+//            int flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+//                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+//                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+//                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+//                    | View.SYSTEM_UI_FLAG_FULLSCREEN
+//                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+
+            if (Build.VERSION.SDK_INT<=17) {
+                flags = flags | View.SYSTEM_UI_FLAG_LOW_PROFILE;
+            } else {
+                flags = flags
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LOW_PROFILE
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                ;
+            }
+            getWindow().getDecorView().setSystemUiVisibility(flags);
+        } catch (Throwable t) {
+        }
     }
 
 //    @Override
@@ -236,20 +269,20 @@ public class MainActivity extends Activity {
         // scroll this container).
         // This method will only be called if the touch event was intercepted in
         // onInterceptTouchEvent
+        setFullScreen();
         return false;
     }
 
 
     @Override
     public void onBackPressed() {
-        hideNavigation();
     }
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         Log.d("focus", "window focus change: "+hasFocus);
-
+        setFullScreen();
     }
 
     @Override
@@ -281,12 +314,12 @@ public class MainActivity extends Activity {
         Point dim = new Point();
         d.getSize(dim);
         Log.d("orientation on start", d.getName()+": rotation: "+d.getRotation()+", size: "+dim);
-        if (!documentLoaded && d.getRotation()==Surface.ROTATION_90  || d.getRotation()==Surface.ROTATION_180) {
-            if (!documentLoaded) {
-                documentLoaded = true;
-                mWebView.loadUrl(BASE_DATA_URL);
-            }
-        }
+//        if (!documentLoaded && d.getRotation()==Surface.ROTATION_90  || d.getRotation()==Surface.ROTATION_180) {
+//            if (!documentLoaded) {
+//                documentLoaded = true;
+//                mWebView.loadUrl(BASE_DATA_URL);
+//            }
+//        }
 
         DevicePolicyManager deviceManger = (DevicePolicyManager)
                 getSystemService(Context. DEVICE_POLICY_SERVICE ) ;
@@ -296,11 +329,14 @@ public class MainActivity extends Activity {
             Intent intent = new Intent(DevicePolicyManager. ACTION_ADD_DEVICE_ADMIN) ;
             intent.putExtra(DevicePolicyManager. EXTRA_DEVICE_ADMIN , compName ) ;
             intent.putExtra(DevicePolicyManager. EXTRA_ADD_EXPLANATION , "You should enable the app!" ) ;
-            startActivityForResult(intent , 1 ) ;
+            try {
+                startActivityForResult(intent, 1);
+            } catch (Throwable e) {
+                Log.e("START", "Error enabling device admin: " + e.getMessage());
+            }
         } else {
             Log.d("device admin", "enabled");
         }
-
     }
 
     @Override
@@ -310,13 +346,12 @@ public class MainActivity extends Activity {
                 .getDefaultDisplay();
         Point dim = new Point();
         d.getSize(dim);
-        hideNavigation();
-        if (d.getRotation()==Surface.ROTATION_90  || d.getRotation()==Surface.ROTATION_180) {
-            if (!documentLoaded) {
-                documentLoaded = true;
-                mWebView.loadUrl(BASE_DATA_URL);
-            }
-        }
+//        if (d.getRotation()==Surface.ROTATION_90  || d.getRotation()==Surface.ROTATION_180) {
+//            if (!documentLoaded) {
+//                documentLoaded = true;
+//                mWebView.loadUrl(BASE_DATA_URL);
+//            }
+//        }
         Log.d("orientation change", d.getName()+": rotation: "+d.getRotation()+", size: "+dim);
     }
 
@@ -352,40 +387,51 @@ public class MainActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        hideNavigation();
+        Context appCtx = getApplicationContext();
         String stage = "resume";
         Log.d("lifecycle", stage);
         Utils.enumerateUsbDevices(getApplicationContext());
         BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();
-//        btAdapter.setName("PUSHWEBVIEW");
-        Log.i("BT","Local address: "+btAdapter.getAddress());
-        int btState = btAdapter.getState();
-//        if (btState != BluetoothAdapter.STATE_ON && btState != BluetoothAdapter.STATE_TURNING_ON) {
-//            btAdapter.enable();
-//        }
+        int btState = -1;
+        if (btAdapter!=null) {
+            Log.i("BT", "Local address: " + btAdapter.getAddress());
+            btState = btAdapter.getState();
+        }
         updateTime();
         updateWifiStateInfo();
         registerReceiver(timeTickReciever, new IntentFilter(Intent.ACTION_TIME_TICK));
 
-        Log.i("[resume]", "Power state on "+stage+": "+Utils.getBatteryChargingStatus(getApplicationContext()));
-        Log.i("[resume]", "Screen state on "+stage+": "+Utils.getScreenState(getApplicationContext()));
-        Log.i("[resume]", "WiFi state on "+stage+": "+Utils.getWiFiState(getApplicationContext()));
-        Log.i("[resume]", "Bluetooth state on "+stage+": "+btAdapter.getState());
+        Log.i("[resume]", "Power state on "+stage+": "+Utils.getBatteryChargingStatus(appCtx));
+        Log.i("[resume]", "Screen state on "+stage+": "+Utils.getScreenState(appCtx));
+        Log.i("[resume]", "WiFi state on "+stage+": "+Utils.getWiFiState(appCtx));
+        Log.i("[resume]", "Bluetooth state on "+stage+": "+Utils.getBluetoothState(appCtx));
         Log.i("[resume]", "Window active on "+stage+": "+getWindow().isActive());
 
-        if (btState == BluetoothAdapter.STATE_ON || btState == BluetoothAdapter.STATE_TURNING_ON) {
-            if (bluetoothClient == null || !bluetoothClient.isConnected()) {
-                bluetoothClient = new BluetoothClient(btAdapter, "98:D3:41:F6:13:23", "00001101-0000-1000-8000-00805f9b34fb", new DataHandler<String>() {
-                    @Override
-                    public String onData(String requestPath, Map<String, String> params, String data) {
-                        MainActivity.this.data = data;
-                        if (data != null) {
-                            runOnUiThread(() -> mWebView.loadUrl("javascript:update_values(android.getData())"));
+        if (btAdapter!=null) {
+            if (btState == BluetoothAdapter.STATE_ON || btState == BluetoothAdapter.STATE_TURNING_ON) {
+                if (bluetoothClient == null) {
+                    bluetoothClient = new BluetoothClient(btAdapter, "98:D3:41:F6:13:23", "00001101-0000-1000-8000-00805f9b34fb", new DataHandler<String>() {
+                        @Override
+                        public String onData(String requestPath, Map<String, String> params, String data) {
+                            MainActivity.this.data = data;
+                            if (data != null) {
+                                runOnUiThread(() -> mWebView.loadUrl("javascript:update_values(android.getData())"));
+                            }
+                            return null;
                         }
-                        return null;
-                    }
-                }, getApplicationContext());
+                    }, getApplicationContext());
+                }
+            } else {
+                if (bluetoothClient != null) {
+                    bluetoothClient.close();
+                    bluetoothClient = null;
+                }
             }
+        }
+
+        if (!documentLoaded) {
+            documentLoaded = true;
+            mWebView.loadUrl(BASE_DATA_URL);
         }
     }
 
@@ -406,23 +452,17 @@ public class MainActivity extends Activity {
         }
     }
 
-    private void hideNavigation() {
-//        View decorView = getWindow().getDecorView();
-//        int uiOptions = View.SYSTEM_UI_FLAG_LOW_PROFILE
-//                | View.SYSTEM_UI_FLAG_FULLSCREEN
-//                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-//        decorView.setSystemUiVisibility(uiOptions);
-    }
-
     String updateWifiStateInfo() {
-        final String listenAddr;
         WifiManager wm = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        String listenAddr;
         if (wm.getWifiState() == WifiManager.WIFI_STATE_ENABLED) {
-            listenAddr = Formatter.formatIpAddress(wm.getConnectionInfo().getIpAddress());
+            listenAddr = "&#x25CF&nbsp;";//getNetworkInfo();
         } else {
-            listenAddr = "&#x26A0 No network (" + wm.getWifiState() +")";
+            listenAddr = "&#x26A0&nbsp;";
         }
-        mWebView.loadUrl("javascript:var e=document.getElementById('wifi-info');if(e){e.innerHTML='"+listenAddr+"';}");
+//        String listenAddr = "&#x25CF&nbsp;";//getNetworkInfo();
+//        mWebView.loadUrl("javascript:var e=document.getElementById('wifi-info');if(e){e.innerHTML='"+listenAddr+"';}");
+        mWebView.loadUrl("javascript:updateWifiInfo('"+listenAddr+"')");
         return listenAddr;
     }
 
@@ -430,7 +470,8 @@ public class MainActivity extends Activity {
         Time now = new Time(Time.getCurrentTimezone());
         now.setToNow();
         String timeStr = Utils.formatTime(now);
-        mWebView.loadUrl("javascript:var e=document.getElementById('clock');if(e){e.innerHTML='"+timeStr+"';}");
+//        mWebView.loadUrl("javascript:var e=document.getElementById('clock');if(e){e.innerHTML='"+timeStr+"';}");
+        mWebView.loadUrl("javascript:updateClock('"+timeStr+"')");
     }
 
     public void reset() {
@@ -477,5 +518,14 @@ public class MainActivity extends Activity {
 
     public String getData() {
         return data;
+    }
+
+    public String getNetworkInfo() {
+        WifiManager wm = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        if (wm.getWifiState() == WifiManager.WIFI_STATE_ENABLED) {
+            return Formatter.formatIpAddress(wm.getConnectionInfo().getIpAddress());
+        } else {
+            return  "&#x26A0 No network (" + wm.getWifiState() +")";
+        }
     }
 }

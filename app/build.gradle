@@ -3,8 +3,8 @@ plugins {
 }
 
 android {
-    compileSdkVersion 17
-    buildToolsVersion "25.2.5"
+    compileSdk 28
+    buildToolsVersion '31.0.0'
 
     defaultConfig {
         applicationId "pl.net.xtech.pushwebview"
@@ -14,6 +14,7 @@ android {
         versionName "1.0.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        targetSdk 28
     }
 
     buildTypes {
@@ -28,6 +29,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    namespace 'pl.net.xtech.pushwebview'
 }
 
 dependencies {

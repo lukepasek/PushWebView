@@ -61,8 +61,10 @@ td, th {
 }
 
 #wifi-info {
-    color: gray;
+    color: #191970;
     font-size: 15px;
+    padding-top: 0px;
+    padding-left: 5px;
 }
 
 .right {
@@ -121,7 +123,7 @@ td, th {
   height: 83%;
   outline: none;
 }
- .power-icon {
+.power-icon {
   background-image: url(battery.svg);
   background-size: 80%;
   background-position: center;
