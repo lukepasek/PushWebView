@@ -13,7 +13,7 @@
         </script>
     </head>
     <body onload="on_load()">
-    <div id="wifi-info" class="right" onmousedown="click(this, 0)" onmouseup="click(this, 1)" onclick="android.showToast('WiFi address: '+android.getNetworkInfo())"></div>
+    <div id="wifi-info" class="right-overlay" onmousedown="click(this, 0)" onmouseup="click(this, 1)" onclick="android.showToast('WiFi address: '+android.getNetworkInfo())"></div>
     <div id="overlay">
         <div id="content"></div>
     </div>
@@ -59,21 +59,35 @@
                 </td>
                 <td>
                     <div class="icon-bg icon-right">
-                        <div class="heat-icon">
-                        </div>
-                        <div class="value-bar-bg" style="height:7%;width:80%;background-color:DimGray;margin:9%;margin-top:0px;">
-                            <div class="value-bar-value" style="height:100%;width:70%;background-color:green;"></div>
-                        </div>
-                        <div class="icon-overlay" onmousedown="click(this, 0)" onmouseup="click(this, 1)" onclick="console.log('click on FAN')" ></div>
+<!--                        <div class="heat-icon">-->
+<!--                        </div>-->
+<!--                        <div class="value-bar-bg" style="height:7%;width:80%;background-color:DimGray;margin:9%;margin-top:0px;">-->
+<!--                            <div class="value-bar-value" style="height:100%;width:70%;background-color:green;"></div>-->
+<!--                        </div>-->
+<!--                        <div class="icon-overlay" onmousedown="click(this, 0)" onmouseup="click(this, 1)" onclick="console.log('click on FAN')" ></div>-->
+                        <!-- Rectangular switch -->
+<!--                        <label class="switch">-->
+<!--                            <input type="checkbox">-->
+<!--                            <span class="slider"></span>-->
+<!--                        </label>-->
+
+                        <!-- Rounded switch -->
+                        <label class="switch">
+                            <input type="checkbox">
+                            <span class="slider round"></span>
+                        </label>
                     </div>
                 </td>
             </tr>
             <tr height="33%">
-                <td><span id="value-vb"></span> V</td>
-                <td><span id="value-ib"></span> A</td>
+                <td><span id="value-vb">0.00</span> V</td>
+                <td><span id="value-ib">0.00</span> A</td>
                 <td><span id="value-on">0</span>/<span id="value-off">0</span></td>
             </tr>
         </table>
     </div>
+<!--    <div class="overlay">-->
+<!--        <img id="bg_image"/>-->
+<!--    </div>-->
     </body>
 </html>

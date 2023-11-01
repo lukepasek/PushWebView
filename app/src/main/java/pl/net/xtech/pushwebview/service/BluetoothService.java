@@ -17,8 +17,8 @@ import java.io.OutputStream;
 import java.util.HashSet;
 import java.util.UUID;
 
-import pl.net.xtech.pushwebview.ByteDataHandler;
-import pl.net.xtech.pushwebview.Utils;
+import pl.net.xtech.pushwebview.handler.ByteDataHandler;
+import pl.net.xtech.pushwebview.android.Utils;
 
 public class BluetoothService extends Service {
 

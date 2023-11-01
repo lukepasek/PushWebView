@@ -1,4 +1,4 @@
-package pl.net.xtech.pushwebview;
+package pl.net.xtech.pushwebview.client;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -12,6 +12,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.UUID;
+
+import pl.net.xtech.pushwebview.android.Utils;
 
 public class BluetoothClient extends Thread {
     private final String deviceAddress;

@@ -3,8 +3,7 @@ package pl.net.xtech.pushwebview.service;
 
 import android.os.Binder;
 
-import pl.net.xtech.pushwebview.ByteDataHandler;
-import pl.net.xtech.pushwebview.HttpServer;
+import pl.net.xtech.pushwebview.handler.ByteDataHandler;
 
 public class HttpServiceBinder extends Binder {
 
@@ -15,7 +14,7 @@ public class HttpServiceBinder extends Binder {
     }
 
 
-    public void addContextHandler(String data, ByteDataHandler dataHandler) {
-        httpServer.addContextHandler(data, dataHandler);
+    public void addContextHandler(String path, ByteDataHandler dataHandler) {
+        httpServer.addContextHandler(path, dataHandler);
     }
 }

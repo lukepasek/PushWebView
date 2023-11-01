@@ -5,28 +5,34 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.wifi.WifiManager;
-import android.os.BatteryManager;
-import android.os.PowerManager;
 import android.util.Log;
 
-import pl.net.xtech.pushwebview.MainActivity;
-import pl.net.xtech.pushwebview.Utils;
+import pl.net.xtech.pushwebview.android.Utils;
 
 public class ScreenLockReceiver extends BroadcastReceiver {
+    public static IntentFilter intentFilter() {
+        IntentFilter screenLockIntentFilter = new IntentFilter();
+        screenLockIntentFilter.addAction(Intent.ACTION_SCREEN_OFF);
+        screenLockIntentFilter.addAction(Intent.ACTION_SCREEN_ON);
+//        screenLockIntentFilter.addAction(Intent.ACTION_USER_PRESENT);
+        return screenLockIntentFilter;
+    }
+
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.i("[Screen state]", "Screen state "+intent);
+//        if(intent.getAction().equals(Intent.ACTION_USER_PRESENT)) {
+//            Log.i("[user present]", "starting main activity as lock screen");
+//            Intent newIntent = new Intent(context, MainActivity.class);
+//            newIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//            context.startActivity(newIntent);
+//        }
 
         if(intent.getAction().equals(Intent.ACTION_SCREEN_ON) || intent.getAction().equals(Intent.ACTION_USER_PRESENT)){
             Log.i("[Screen on]", "Enabling WiFi regardless of power state");
             WifiManager wManager = (WifiManager)context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
             wManager.setWifiEnabled(true);
-        }
-        else if(intent.getAction().equals(Intent.ACTION_SCREEN_OFF)){
-//            Log.i("[Screen state]", "Screen OFF "+intent);
-//            Intent pwrIntent = context.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
-//            int chargePlug = intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
-//            Log.i("[Screen state]", "Power state "+pwrIntent+" plugged: "+chargePlug);
+        } else if(intent.getAction().equals(Intent.ACTION_SCREEN_OFF)){
             if (!Utils.isChargerConnected(context)) {
                 Log.i("[Screen off]", "Power state is unplugged - disabling WiFi");
                 WifiManager wManager = (WifiManager)context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);

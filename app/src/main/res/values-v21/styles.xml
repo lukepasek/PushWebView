@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Transparent.All" parent="@android:style/Theme.Wallpaper.NoTitleBar.Fullscreen">
+<!--        <item name="android:navigationBarColor">@color/purple_200</item>-->
+        <item name="android:fitsSystemWindows">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowActivityTransitions">false</item>
+        <item name="android:windowContentTransitions">false</item>
+        <item name="android:windowFullscreen">true</item>
+<!--        <item name="android:windowIsTranslucent">true</item>-->
+    </style>
+</resources>

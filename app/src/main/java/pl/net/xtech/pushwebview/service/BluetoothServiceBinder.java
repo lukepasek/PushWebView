@@ -2,7 +2,7 @@ package pl.net.xtech.pushwebview.service;
 
 import android.os.Binder;
 
-import pl.net.xtech.pushwebview.ByteDataHandler;
+import pl.net.xtech.pushwebview.handler.ByteDataHandler;
 
 public class BluetoothServiceBinder extends Binder {
 

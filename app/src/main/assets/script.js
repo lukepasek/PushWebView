@@ -32,6 +32,22 @@ function updateWifiInfo(html)
     }
 }
 
+function setImage(src)
+{
+    const elem = document.getElementById("bg_image");
+    if (elem) {
+        elem.src = src;
+    }
+}
+
+function clearImage()
+{
+    const elem = document.getElementById("bg_image");
+    if (elem) {
+        elem.src = src;
+    }
+}
+
 function update_values(data) {
     if (data) {
         console.log(data);
@@ -104,4 +120,12 @@ function on_load() {
     w = window.innerHeight;
     h = window.innerWidth;
     console.log("Window size: "+w+"x"+h);
+    android.printObject(window);
+    const elem = document.getElementById("clock");
+    android.printObject(elem);
+    const f1 = function (value) {
+        console.log("Value rom callback: "+value);
+    };
+    android.registerWifiStateCallback(f1);
+    console.log("Test data: "+android.getData());
 }

@@ -3,11 +3,20 @@ package pl.net.xtech.pushwebview.receiver;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.wifi.WifiManager;
 import android.os.PowerManager;
 import android.util.Log;
 
 public class PlugInControlReceiver extends BroadcastReceiver {
+
+    public static IntentFilter intentFilter() {
+        IntentFilter plugInControlFilter = new IntentFilter();
+        plugInControlFilter.addAction(Intent.ACTION_POWER_CONNECTED);
+        plugInControlFilter.addAction(Intent.ACTION_POWER_DISCONNECTED);
+        plugInControlFilter.addAction(Intent.ACTION_BATTERY_CHANGED);
+        return plugInControlFilter;
+    }
 
     @Override
     public void onReceive(Context context, Intent intent) {

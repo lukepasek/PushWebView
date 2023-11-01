@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/textView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="left|top"
+    android:background="#30ffffff"
+    android:textColor="@color/white"
+    android:fontFamily="sans-serif"
+    android:textSize="27sp"
+    android:shadowColor="@color/black"
+    android:shadowDx="1"
+    android:shadowDy="1"
+    android:shadowRadius="2"
+    android:layout_margin="2sp" />

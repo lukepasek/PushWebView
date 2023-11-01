@@ -1,4 +1,4 @@
-package pl.net.xtech.pushwebview;
+package pl.net.xtech.pushwebview.android;
 import android.app.admin.DeviceAdminReceiver;
 import android.content.Context;
 import android.content.Intent;

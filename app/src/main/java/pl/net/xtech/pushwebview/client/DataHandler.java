@@ -1,4 +1,4 @@
-package pl.net.xtech.pushwebview;
+package pl.net.xtech.pushwebview.client;
 
 import java.util.Map;
 
